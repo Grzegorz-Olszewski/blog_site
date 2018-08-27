@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div id="header">
+    <a href="{% url 'blog:index' %}"><span class="logo">Blog</span></a>
+    {% if request.user.is_authenticated %}
+        <span class="log"><a href="{% url 'blog:logout' %}">Log-out</a></span>
+    {% else %}
+        <span class="log"><a href="{% url 'blog:login' %}">Login</a></span>
+    {% endif %}
+  </div>
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>

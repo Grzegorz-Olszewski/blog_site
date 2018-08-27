@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+
+{% block title %}Post{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <h3>{{ post.text }}</h3>
+    {{ post.author }}
+    <br/>
+    {{ post.pub_date }}
+    </br>
+    {% if post.author.username == request.user.username %}
+        <a href = "{% url 'blog:edit_post' pk=post.id %}">Edit Post</a>
+        <a href = "{% url 'blog:delete_post' pk=post.id %}">Delete post</a>
+    {% endif %}
+    </br>
+    <a href = "{% url 'blog:comment_new' pk=post.id %}">Add comment</a>
+    <h4>Comments</h4>
+    {% for comment in post.comment_set.all %}
+        <p>{{ comment.text }}</p>
+        {{ comment.author }}
+        </br>
+        {{ comment.pub_date }}
+        </br>
+        <a href = "{% url 'blog:delete_comment' post_pk=post.id pk=comment.id %}">Delete comment</a>
+    {% empty %}
+        <p>No comments here yet</p>
+    {% endfor %}
+{% endblock %}

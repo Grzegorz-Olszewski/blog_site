@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Blog Grzegorza</h1>
+    {% if latest_posts_list %}
+        <ul>
+            {% for post in latest_posts_list %}
+                <li>
+                    <h2><a href="{% url 'blog:details' post.id %}">{{ post.title }}</a></h2>
+                    <p>{{ post.text }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No posts available</p>
+    {% endif %}
+
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a href = "?page={{ page_obj.previous_number_page }}">&laquo;</a>
+        {% else %}
+        <span class="disabled">&laquo;</span>
+        {% endif %}
+        {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+               <span>{{ i }}</span>
+            {% else %}
+                <a href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+        {% else %}
+            <span class="disabled">&raquo;</span>
+        {% endif %}
+    {% endif %}
+    </br>
+    </br>
+    {% if request.user.is_authenticated %}
+        <strong><a href="{% url 'blog:post_new' %}">Nowy Post</a></strong>
+    {% endif %}
+{% endblock %}
