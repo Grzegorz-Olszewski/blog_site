@@ -1,2 +1,2 @@
 # blog_site
-Blog site written in django framework.
+Blog written in django.
